@@ -41,7 +41,7 @@ func TestRender(_ *testing.T) {
 	os.Stdout = w
 	defer func() {
 		os.Stdout = originalStdout
-		w.Close()
+		_ = w.Close()
 	}()
 
 	table := NewTable([]string{"Name", "Status"})

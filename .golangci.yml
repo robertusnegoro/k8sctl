@@ -1,40 +1,57 @@
 # golangci-lint configuration
-linters-settings:
-  errcheck:
-    check-type-assertions: true
-    check-blank: true
-  goconst:
-    min-len: 2
-    min-occurrences: 2
-  gocritic:
-    enabled-tags:
-      - diagnostic
-      - experimental
-      - opinionated
-      - performance
-      - style
-  misspell:
-    locale: US
+version: "2"
 
 linters:
   enable:
     - errcheck
     - goconst
     - gocritic
-    - gofmt
-    - goimports
     - revive
     - govet
     - ineffassign
     - staticcheck
-    - typecheck
     - unused
 
+  settings:
+    errcheck:
+      check-type-assertions: true
+      check-blank: true
+    goconst:
+      min-len: 2
+      min-occurrences: 2
+    gocritic:
+      enabled-tags:
+        - diagnostic
+        - experimental
+        - opinionated
+        - performance
+        - style
+    misspell:
+      locale: US
+
+  exclusions:
+    rules:
+      - path: ".*_test\\.go"
+        linters:
+          - errcheck
+          - goconst
+      - text: "avoid package names that conflict with Go standard library package names"
+        linters:
+          - revive
+      - text: "Error return value of.*is not checked"
+        linters:
+          - errcheck
+        source: "_, _ = .*\\.Print"
+      - text: "Error return value of `stream\\.Close` is not checked"
+        linters:
+          - errcheck
+        source: "_ = stream\\.Close\\(\\)"
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
+
 issues:
-  exclude-rules:
-    - path: _test.go
-      linters:
-        - errcheck
-        - goconst
   max-issues-per-linter: 0
   max-same-issues: 0

@@ -1,9 +1,10 @@
-package errors
+package errors_test
 
 import (
-	"errors"
+	stderrors "errors"
 	"testing"
 
+	"github.com/robertusnegoro/k8ctl/internal/errors"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -11,9 +12,9 @@ import (
 func TestHandleKubernetesError_404(t *testing.T) {
 	err := apierrors.NewNotFound(schema.GroupResource{Resource: "pods"}, "test-pod")
 
-	result := HandleKubernetesError(err, "pod", "test-pod", "default")
+	result := errors.HandleKubernetesError(err, "pod", "test-pod", "default")
 
-	ufErr, ok := result.(*UserFriendlyError)
+	ufErr, ok := result.(*errors.UserFriendlyError)
 	if !ok {
 		t.Fatal("HandleKubernetesError should return UserFriendlyError for 404")
 	}
@@ -26,11 +27,11 @@ func TestHandleKubernetesError_404(t *testing.T) {
 }
 
 func TestHandleKubernetesError_403(t *testing.T) {
-	err := apierrors.NewForbidden(schema.GroupResource{Resource: "pods"}, "test-pod", errors.New("access denied"))
+	err := apierrors.NewForbidden(schema.GroupResource{Resource: "pods"}, "test-pod", stderrors.New("access denied"))
 
-	result := HandleKubernetesError(err, "pod", "test-pod", "default")
+	result := errors.HandleKubernetesError(err, "pod", "test-pod", "default")
 
-	ufErr, ok := result.(*UserFriendlyError)
+	ufErr, ok := result.(*errors.UserFriendlyError)
 	if !ok {
 		t.Fatal("HandleKubernetesError should return UserFriendlyError for 403")
 	}
@@ -42,9 +43,9 @@ func TestHandleKubernetesError_403(t *testing.T) {
 func TestHandleKubernetesError_401(t *testing.T) {
 	err := apierrors.NewUnauthorized("unauthorized")
 
-	result := HandleKubernetesError(err, "pod", "test-pod", "default")
+	result := errors.HandleKubernetesError(err, "pod", "test-pod", "default")
 
-	ufErr, ok := result.(*UserFriendlyError)
+	ufErr, ok := result.(*errors.UserFriendlyError)
 	if !ok {
 		t.Fatal("HandleKubernetesError should return UserFriendlyError for 401")
 	}
@@ -54,11 +55,11 @@ func TestHandleKubernetesError_401(t *testing.T) {
 }
 
 func TestHandleKubernetesError_ConnectionError(t *testing.T) {
-	err := errors.New("no such host")
+	err := stderrors.New("no such host")
 
-	result := HandleKubernetesError(err, "pod", "test-pod", "default")
+	result := errors.HandleKubernetesError(err, "pod", "test-pod", "default")
 
-	ufErr, ok := result.(*UserFriendlyError)
+	ufErr, ok := result.(*errors.UserFriendlyError)
 	if !ok {
 		t.Fatal("HandleKubernetesError should return UserFriendlyError for connection errors")
 	}
@@ -68,16 +69,16 @@ func TestHandleKubernetesError_ConnectionError(t *testing.T) {
 }
 
 func TestWrapError(t *testing.T) {
-	originalErr := errors.New("original error")
+	originalErr := stderrors.New("original error")
 	message := "wrapped message"
 
-	result := WrapError(originalErr, message)
+	result := errors.WrapError(originalErr, message)
 
 	if result == nil {
 		t.Fatal("WrapError should not return nil")
 	}
 
-	ufErr, ok := result.(*UserFriendlyError)
+	ufErr, ok := result.(*errors.UserFriendlyError)
 	if !ok {
 		t.Fatal("WrapError should return UserFriendlyError")
 	}
@@ -90,7 +91,7 @@ func TestWrapError(t *testing.T) {
 }
 
 func TestWrapError_Nil(t *testing.T) {
-	result := WrapError(nil, "message")
+	result := errors.WrapError(nil, "message")
 	if result != nil {
 		t.Error("WrapError should return nil for nil error")
 	}

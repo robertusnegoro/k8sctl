@@ -1,9 +1,11 @@
+// Package commands provides all CLI commands for k8ctl.
 package commands
 
 import (
 	"github.com/spf13/cobra"
 )
 
+// NewCompletionCommand creates a new completion command for shell autocompletion.
 func NewCompletionCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "completion [bash|zsh|fish|powershell]",

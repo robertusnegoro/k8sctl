@@ -14,6 +14,7 @@ import (
 	"k8s.io/client-go/kubernetes"
 )
 
+// NewDescribeCommand creates a new describe command for showing resource details.
 func NewDescribeCommand() *cobra.Command {
 	var namespace string
 

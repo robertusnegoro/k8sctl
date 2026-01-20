@@ -21,6 +21,7 @@ var (
 	logLevelRegex = regexp.MustCompile(`(?i)(ERROR|WARN|WARNING|INFO|DEBUG|FATAL)`)
 )
 
+// NewLogsCommand creates a new logs command for displaying pod logs.
 func NewLogsCommand() *cobra.Command {
 	var namespace string
 	var follow bool
@@ -86,7 +87,9 @@ func runLogs(_ *cobra.Command, args []string, namespace string, follow bool, tai
 	if err != nil {
 		return errors.WrapError(err, "Failed to retrieve pod logs")
 	}
-	defer stream.Close()
+	defer func() {
+		_ = stream.Close()
+	}()
 
 	scanner := bufio.NewScanner(stream)
 	for scanner.Scan() {
@@ -109,16 +112,16 @@ func colorizeLogLine(line string) {
 			level := strings.ToUpper(matches[1])
 			switch level {
 			case "ERROR", "FATAL":
-				output.LogError.Println(line)
+				_, _ = output.LogError.Println(line)
 				return
 			case "WARN", "WARNING":
-				output.LogWarn.Println(line)
+				_, _ = output.LogWarn.Println(line)
 				return
 			case "INFO":
-				output.LogInfo.Println(line)
+				_, _ = output.LogInfo.Println(line)
 				return
 			case "DEBUG":
-				output.LogDebug.Println(line)
+				_, _ = output.LogDebug.Println(line)
 				return
 			}
 		}

@@ -1,3 +1,4 @@
+// Package aliases provides functionality for managing command aliases in k8ctl.
 package aliases
 
 import (

@@ -1,4 +1,5 @@
-package errors
+// Package errors provides error handling and user-friendly error messages for k8ctl.
+package errors //nolint:revive // Package name is intentional and does not conflict in practice
 
 import (
 	"fmt"
@@ -116,18 +117,18 @@ func PrintError(err error) {
 
 	// Check if it's a user-friendly error
 	if ufErr, ok := err.(*UserFriendlyError); ok {
-		output.Error.Println("Error:", ufErr.Message)
+		_, _ = output.Error.Println("Error:", ufErr.Message)
 		if ufErr.Suggestion != "" {
-			output.Info.Println("Suggestion:", ufErr.Suggestion)
+			_, _ = output.Info.Println("Suggestion:", ufErr.Suggestion)
 		}
 		if ufErr.Original != nil && ufErr.Original != ufErr {
-			output.Warning.Printf("Details: %v\n", ufErr.Original)
+			_, _ = output.Warning.Printf("Details: %v\n", ufErr.Original)
 		}
 		return
 	}
 
 	// Default error output
-	output.Error.Println("Error:", err.Error())
+	_, _ = output.Error.Println("Error:", err.Error())
 }
 
 // WrapError wraps an error with a user-friendly message

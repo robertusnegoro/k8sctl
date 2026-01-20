@@ -1,3 +1,4 @@
+// Package config provides configuration management for k8ctl.
 package config
 
 import (
@@ -13,6 +14,7 @@ const (
 	configFileName = "config.yaml"
 )
 
+// Config represents the k8ctl configuration structure.
 type Config struct {
 	CurrentContext string            `mapstructure:"current_context"`
 	CurrentNS      string            `mapstructure:"current_namespace"`
@@ -21,10 +23,12 @@ type Config struct {
 	Output         OutputConfig      `mapstructure:"output"`
 }
 
+// ColorConfig represents color output configuration.
 type ColorConfig struct {
 	Enabled bool `mapstructure:"enabled"`
 }
 
+// OutputConfig represents output format configuration.
 type OutputConfig struct {
 	Format string `mapstructure:"format"` // table, json, yaml
 }

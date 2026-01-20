@@ -13,6 +13,7 @@ import (
 	"k8s.io/client-go/kubernetes"
 )
 
+// NewHealthCommand creates a new health command for displaying cluster health dashboard.
 func NewHealthCommand() *cobra.Command {
 	var namespace string
 

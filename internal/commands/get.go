@@ -35,6 +35,7 @@ var resourceShortcuts = map[string]string{
 	"job":    "jobs",
 }
 
+// NewGetCommand creates a new get command for displaying Kubernetes resources.
 func NewGetCommand() *cobra.Command {
 	var outputFormat string
 	var namespace string
@@ -577,7 +578,7 @@ func getSecrets(client interface{}, namespace, name, outputFormat string, showNa
 		}
 		secretType := string(s.Type)
 		if secretType == "" {
-			secretType = "Opaque"
+			secretType = SecretTypeOpaque
 		}
 		dataCount := len(s.Data)
 		age := getAge(s.CreationTimestamp)
