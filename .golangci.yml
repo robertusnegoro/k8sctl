@@ -1,4 +1,6 @@
 # golangci-lint configuration
+version: "1"
+
 linters-settings:
   errcheck:
     check-type-assertions: true
