@@ -13,7 +13,6 @@ builds:
     goarch:
       - amd64
       - arm64
-      - arm
     env:
       - CGO_ENABLED=0
     flags:
@@ -69,11 +68,9 @@ nfpms:
     license: MIT
     formats:
       - deb
-    files:
-      README.md: /usr/share/doc/k8ctl/README.md
-    scripts:
-      postinstall: packaging/debian/postinst
-      postremove: packaging/debian/postrm
+    contents:
+      - src: README.md
+        dst: /usr/share/doc/k8ctl/README.md
 
   - id: rpm
     package_name: k8ctl
@@ -82,8 +79,9 @@ nfpms:
     license: MIT
     formats:
       - rpm
-    files:
-      README.md: /usr/share/doc/k8ctl/README.md
+    contents:
+      - src: README.md
+        dst: /usr/share/doc/k8ctl/README.md
 
 dockers:
   - goos: linux
