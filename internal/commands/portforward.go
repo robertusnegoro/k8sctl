@@ -88,7 +88,7 @@ func runPortForward(_ *cobra.Command, args []string, namespace, localPort, remot
 	}
 }
 
-func portForwardToPod(client *kubernetes.Clientset, config *rest.Config, namespace, podName, localPort, remotePort string) error {
+func portForwardToPod(client *kubernetes.Clientset, restConfig *rest.Config, namespace, podName, localPort, remotePort string) error {
 	// Get pod
 	pod, err := client.CoreV1().Pods(namespace).Get(context.Background(), podName, metav1.GetOptions{})
 	if err != nil {
@@ -110,10 +110,10 @@ func portForwardToPod(client *kubernetes.Clientset, config *rest.Config, namespa
 		localPort = remotePort
 	}
 
-	return startPortForward(config, namespace, pod.Name, localPort, remotePort)
+	return startPortForward(restConfig, namespace, pod.Name, localPort, remotePort)
 }
 
-func portForwardToService(client *kubernetes.Clientset, config *rest.Config, namespace, serviceName, localPort, remotePort string) error {
+func portForwardToService(client *kubernetes.Clientset, restConfig *rest.Config, namespace, serviceName, localPort, remotePort string) error {
 	// Get service
 	service, err := client.CoreV1().Services(namespace).Get(context.Background(), serviceName, metav1.GetOptions{})
 	if err != nil {
@@ -147,14 +147,14 @@ func portForwardToService(client *kubernetes.Clientset, config *rest.Config, nam
 		localPort = remotePort
 	}
 
-	return startPortForward(config, namespace, podName, localPort, remotePort)
+	return startPortForward(restConfig, namespace, podName, localPort, remotePort)
 }
 
-func startPortForward(config *rest.Config, namespace, podName, localPort, remotePort string) error {
+func startPortForward(restConfig *rest.Config, namespace, podName, localPort, remotePort string) error {
 	path := fmt.Sprintf("/api/v1/namespaces/%s/pods/%s/portforward", namespace, podName)
-	hostIP := strings.TrimPrefix(config.Host, "https://")
+	hostIP := strings.TrimPrefix(restConfig.Host, "https://")
 
-	transport, upgrader, err := spdy.RoundTripperFor(config)
+	transport, upgrader, err := spdy.RoundTripperFor(restConfig)
 	if err != nil {
 		return fmt.Errorf("failed to create round tripper: %w", err)
 	}
