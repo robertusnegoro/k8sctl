@@ -577,7 +577,7 @@ func getSecrets(client interface{}, namespace, name, outputFormat string, showNa
 		}
 		secretType := string(s.Type)
 		if secretType == "" {
-			secretType = "Opaque"
+			secretType = SecretTypeOpaque
 		}
 		dataCount := len(s.Data)
 		age := getAge(s.CreationTimestamp)

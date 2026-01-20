@@ -281,7 +281,7 @@ func displayServices(client kubernetes.Interface, namespace string) {
 		externalIP := NoneValue
 		if len(service.Spec.ExternalIPs) > 0 {
 			externalIP = service.Spec.ExternalIPs[0]
-		} else if service.Status.LoadBalancer.Ingress != nil && len(service.Status.LoadBalancer.Ingress) > 0 {
+		} else if len(service.Status.LoadBalancer.Ingress) > 0 {
 			lb := service.Status.LoadBalancer.Ingress[0]
 			if lb.IP != "" {
 				externalIP = lb.IP
@@ -435,7 +435,7 @@ func displaySecrets(client kubernetes.Interface, namespace string) {
 		secret := &secrets.Items[i]
 		secretType := string(secret.Type)
 		if secretType == "" {
-			secretType = "Opaque"
+			secretType = SecretTypeOpaque
 		}
 		dataCount := len(secret.Data)
 		age := getAge(secret.CreationTimestamp)

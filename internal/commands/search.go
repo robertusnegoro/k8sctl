@@ -289,7 +289,7 @@ func searchSecrets(client kubernetes.Interface, namespace, _ string) error {
 			secret := secrets.Items[i]
 			secretType := string(secret.Type)
 			if secretType == "" {
-				secretType = "Opaque"
+				secretType = SecretTypeOpaque
 			}
 			return fmt.Sprintf("Secret: %s\nNamespace: %s\nType: %s\nData Keys: %d",
 				secret.Name,
