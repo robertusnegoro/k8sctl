@@ -1,0 +1,17 @@
+Source: k8ctl
+Section: utils
+Priority: optional
+Maintainer: k8ctl maintainers <maintainers@k8ctl.dev>
+Build-Depends: debhelper (>= 11), dh-golang, golang-go (>= 1.21)
+Standards-Version: 4.5.0
+Homepage: https://github.com/robertusnegoro/k8ctl
+
+Package: k8ctl
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Enhanced kubectl with colored tables and built-in context/namespace management
+ k8ctl is an enhanced version of kubectl with:
+ - Colored table output with real tables
+ - Built-in context and namespace switching (replaces kubectx and kubens)
+ - Enhanced commands for better user experience
+ - Advanced features like search, health dashboard, and more

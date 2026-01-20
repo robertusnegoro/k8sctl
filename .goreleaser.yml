@@ -1,0 +1,92 @@
+project_name: k8ctl
+
+builds:
+  - id: k8ctl
+    main: ./cmd/k8ctl
+    binary: k8ctl
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+      - arm
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.Commit}}
+      - -X main.date={{.Date}}
+
+archives:
+  - id: default
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+    format: tar.gz
+    files:
+      - README.md
+      - LICENSE
+    format_overrides:
+      - goos: windows
+        format: zip
+
+checksum:
+  name_template: 'checksums.txt'
+
+snapshot:
+  name_template: "{{ .Tag }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+
+brews:
+  - name: k8ctl
+    homepage: https://github.com/robertusnegoro/k8ctl
+    description: Enhanced kubectl with colored tables and built-in context/namespace management
+    license: MIT
+    test: |
+      system "#{bin}/k8ctl version"
+    install: |
+      bin.install "k8ctl"
+      bash_completion.install "completions/bash/k8ctl.bash" => "k8ctl"
+      zsh_completion.install "completions/zsh/_k8ctl" => "_k8ctl"
+      fish_completion.install "completions/fish/k8ctl.fish" => "k8ctl.fish"
+
+nfpms:
+  - id: deb
+    package_name: k8ctl
+    maintainer: k8ctl maintainers
+    description: Enhanced kubectl with colored tables and built-in context/namespace management
+    license: MIT
+    formats:
+      - deb
+    files:
+      README.md: /usr/share/doc/k8ctl/README.md
+    scripts:
+      postinstall: packaging/debian/postinst
+      postremove: packaging/debian/postrm
+
+  - id: rpm
+    package_name: k8ctl
+    maintainer: k8ctl maintainers
+    description: Enhanced kubectl with colored tables and built-in context/namespace management
+    license: MIT
+    formats:
+      - rpm
+    files:
+      README.md: /usr/share/doc/k8ctl/README.md
+
+dockers:
+  - goos: linux
+    goarch: amd64
+    image_templates:
+      - "robertusnegoro/k8ctl:{{ .Tag }}"
+      - "robertusnegoro/k8ctl:latest"
+    dockerfile: Dockerfile

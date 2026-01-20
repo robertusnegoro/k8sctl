@@ -1,0 +1,8 @@
+k8ctl (0.1.0) unstable; urgency=medium
+
+  * Initial release
+  * Enhanced get command with colored tables
+  * Context and namespace management
+  * Basic configuration management
+
+ -- k8ctl maintainers <maintainers@k8ctl.dev>  Mon, 01 Jan 2024 12:00:00 +0000

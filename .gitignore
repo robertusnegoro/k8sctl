@@ -1,0 +1,100 @@
+# Binaries
+bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+k8ctl
+k8ctl-*
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+coverage.html
+coverage.xml
+coverage.txt
+*.coverprofile
+
+# Dependency directories
+vendor/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# Go build cache
+.cache/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.cursor/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Build artifacts
+dist/
+*.tar.gz
+*.zip
+*.deb
+*.rpm
+*.snap
+*.pkg
+
+# GoReleaser
+.goreleaser/
+
+# Docker
+*.dockerignore
+.docker/
+
+# Config (local)
+.k8ctl/
+*.local.yaml
+*.local.yml
+*.local.json
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.log
+*.bak
+*.backup
+
+# Kubernetes
+*.kubeconfig
+kubeconfig
+.kube/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Air (live reload for Go)
+tmp/
+
+# Profiling
+*.prof
+*.pprof
+
+# Debug
+debug
+__debug_bin
