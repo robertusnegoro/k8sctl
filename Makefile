@@ -65,7 +65,7 @@ package-homebrew:
 # Full release via GoReleaser
 release:
 	@echo "Creating release..."
-	@goreleaser release
+	@goreleaser release --clean
 
 # Development helpers
 dev:
