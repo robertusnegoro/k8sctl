@@ -40,5 +40,8 @@ issues:
       linters:
         - errcheck
         - goconst
+    - text: "avoid package names that conflict with Go standard library package names"
+      linters:
+        - revive
   max-issues-per-linter: 0
   max-same-issues: 0

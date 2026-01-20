@@ -9,6 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// NewNamespaceCommand creates a new namespace command for managing Kubernetes namespaces.
 func NewNamespaceCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "ns [namespace]",

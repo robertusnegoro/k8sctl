@@ -20,6 +20,7 @@ import (
 	"k8s.io/client-go/kubernetes"
 )
 
+// NewWatchCommand creates a new watch command for watching Kubernetes resources.
 func NewWatchCommand() *cobra.Command {
 	var namespace string
 

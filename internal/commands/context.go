@@ -10,6 +10,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// NewContextCommand creates a new context command for managing Kubernetes contexts.
 func NewContextCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "ctx [context-name]",

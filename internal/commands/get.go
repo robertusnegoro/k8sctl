@@ -35,6 +35,7 @@ var resourceShortcuts = map[string]string{
 	"job":    "jobs",
 }
 
+// NewGetCommand creates a new get command for displaying Kubernetes resources.
 func NewGetCommand() *cobra.Command {
 	var outputFormat string
 	var namespace string

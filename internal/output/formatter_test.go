@@ -17,7 +17,7 @@ func TestFormatYAML(t *testing.T) {
 	os.Stdout = w
 
 	err := FormatYAML(testData)
-	w.Close()
+	_ = w.Close()
 	os.Stdout = originalStdout
 
 	if err != nil {
@@ -43,7 +43,7 @@ func TestFormatJSON(t *testing.T) {
 	os.Stdout = w
 
 	err := FormatJSON(testData)
-	w.Close()
+	_ = w.Close()
 	os.Stdout = originalStdout
 
 	if err != nil {
@@ -70,7 +70,7 @@ func TestFormatJSONWithComplexData(t *testing.T) {
 	os.Stdout = w
 
 	err := FormatJSON(testData)
-	w.Close()
+	_ = w.Close()
 	os.Stdout = originalStdout
 
 	if err != nil {

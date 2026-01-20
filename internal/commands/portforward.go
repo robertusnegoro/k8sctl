@@ -18,6 +18,7 @@ import (
 	"k8s.io/client-go/transport/spdy"
 )
 
+// NewPortForwardCommand creates a new port-forward command for port forwarding to pods/services.
 func NewPortForwardCommand() *cobra.Command {
 	var namespace string
 	var localPort string

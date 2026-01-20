@@ -14,6 +14,7 @@ import (
 	"sigs.k8s.io/yaml"
 )
 
+// NewDiffCommand creates a new diff command for comparing resources.
 func NewDiffCommand() *cobra.Command {
 	var namespace1 string
 	var namespace2 string

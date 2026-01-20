@@ -15,7 +15,10 @@ func FormatYAML(data interface{}) error {
 		return fmt.Errorf("failed to marshal YAML: %w", err)
 	}
 
-	fmt.Fprint(os.Stdout, string(yamlData))
+	_, err = fmt.Fprint(os.Stdout, string(yamlData))
+	if err != nil {
+		return fmt.Errorf("failed to write YAML: %w", err)
+	}
 	return nil
 }
 
@@ -26,6 +29,9 @@ func FormatJSON(data interface{}) error {
 		return fmt.Errorf("failed to marshal JSON: %w", err)
 	}
 
-	fmt.Fprint(os.Stdout, string(jsonData))
+	_, err = fmt.Fprint(os.Stdout, string(jsonData))
+	if err != nil {
+		return fmt.Errorf("failed to write JSON: %w", err)
+	}
 	return nil
 }
