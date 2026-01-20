@@ -5,8 +5,6 @@ bin/
 *.dll
 *.so
 *.dylib
-k8ctl
-k8ctl-*
 
 # Test binary, built with `go test -c`
 *.test
