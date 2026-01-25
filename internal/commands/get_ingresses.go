@@ -59,8 +59,8 @@ func getIngresses(client kubernetes.Interface, namespace, name, outputFormat str
 			class = i.Annotations["kubernetes.io/ingress.class"]
 		}
 
-		// Get hosts
-		hosts := []string{}
+		// Get hosts (optimized: pre-allocate slice capacity)
+		hosts := make([]string, 0, len(i.Spec.Rules))
 		for _, rule := range i.Spec.Rules {
 			if rule.Host != "" {
 				hosts = append(hosts, rule.Host)
@@ -85,8 +85,8 @@ func getIngresses(client kubernetes.Interface, namespace, name, outputFormat str
 			}
 		}
 
-		// Get ports
-		ports := []string{}
+		// Get ports (optimized: pre-allocate slice capacity)
+		ports := make([]string, 0, len(i.Spec.Rules)*2) // Estimate capacity
 		for _, rule := range i.Spec.Rules {
 			if rule.HTTP != nil {
 				for _, path := range rule.HTTP.Paths {

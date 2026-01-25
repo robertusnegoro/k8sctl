@@ -201,6 +201,8 @@ func getDeployments(client interface{}, namespace, name, outputFormat string, sh
 		if err != nil {
 			return errors.HandleKubernetesError(err, "deployments", "", namespace)
 		}
+		// Optimize: pre-allocate slice capacity
+		deployments = make([]interface{}, 0, len(deploymentList.Items))
 		for i := range deploymentList.Items {
 			deployments = append(deployments, &deploymentList.Items[i])
 		}
@@ -294,13 +296,15 @@ func getServices(client interface{}, namespace, name, outputFormat string, showN
 		if !ok {
 			continue
 		}
-		ports := ""
+		// Optimize string building for ports
+		var portsBuilder strings.Builder
 		for i, port := range s.Spec.Ports {
 			if i > 0 {
-				ports += ","
+				portsBuilder.WriteString(",")
 			}
-			ports += fmt.Sprintf("%d/%s", port.Port, port.Protocol)
+			portsBuilder.WriteString(fmt.Sprintf("%d/%s", port.Port, port.Protocol))
 		}
+		ports := portsBuilder.String()
 		if ports == "" {
 			ports = NoneValue
 		}
